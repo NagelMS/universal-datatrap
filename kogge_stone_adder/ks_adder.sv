@@ -42,7 +42,7 @@ endgenerate
 
 
 generate
-    for (i = 0; i < SIZE; i++) begin
+    for (i = 0; i < SIZE; i++) begin: carry_
         assign carry_int[i] = gen_i[LEVELS][i] | (prop_i[LEVELS][i] & c_in);
     end
 endgenerate
@@ -53,7 +53,7 @@ assign result[0] = c_in ^ prop_i[0][0];
 
 
 generate
-    for (i = 1; i < SIZE; i++) begin
+    for (i = 1; i < SIZE; i++) begin:sum_
         assign result[i] = (prop_i[0][i]  ^  carry_int[i-1]);
     end
 endgenerate
@@ -61,19 +61,5 @@ endgenerate
 
 endmodule
 
-module prop_gen(
-    input logic prop_i,
-    input logic prop_prev_i,
-    input logic gen_i,
-    input logic gen_prev_i,
-    
-    output logic prop_o,
-    output logic gen_o
-);
-
-assign prop_o = prop_i & prop_prev_i;
-assign gen_o = (prop_i & gen_prev_i) | gen_i;
-
-endmodule
 
 
